@@ -1,0 +1,35 @@
+.carousel-item {
+    height: 100vh;
+    min-height: 400px;
+    background: no-repeat scroll center scroll;
+    -webkit-background: cover;
+    background-size: cover;
+            }
+
+.carousel-item img {
+    height: 100vh;
+    min-height: 400px;
+    margin-top: 10px;
+
+        }
+
+.carousel-item::before {
+    content: "";
+    display: block;
+    position:absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: black;
+    opacity: 0.1;
+}
+
+.carousel-item p {
+    margin-bottom: 30vh;
+    font-style: italic;
+    color: rgb(0, 255, 13);
+    font-size: large;
+    align-items: center;
+
+}

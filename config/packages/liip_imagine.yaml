@@ -1,0 +1,35 @@
+# Documentation on how to configure the bundle can be found at: https://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html
+liip_imagine:
+    # valid drivers options include "gd" or "gmagick" or "imagick"
+    driver: "gd"
+    resolvers:
+        default:
+            web_path:
+                web_root: "%kernel.project_dir%/public"
+                cache_prefix: "media/cache"
+
+    #Définition de l'ensemble des filtres 
+
+    filter_sets:
+    # Le filtre header_logo servira à dimensionner la taille du logo dans l'entête du site
+        header_logo:
+            quality: 85
+            filters: 
+                thumbnail: 
+                     {size: [280,75],mode: inset}
+
+         # Le filtre header_logo servira à dimensionner la taille du logo dans l'entête du site
+        header_cart_logo:
+            quality: 85
+            filters: 
+                thumbnail: 
+                     {size: [120,40],mode: inset}
+
+     # Le filtre homepage_carousel sert à dimensionner la taille des images du carousel de la page d'accueil 
+        homepage_social_network:
+            quality: 85
+            filters: 
+               thumbnail: 
+                     {size: [40,40],mode: inset}
+
+
