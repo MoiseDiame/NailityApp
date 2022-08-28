@@ -9,12 +9,12 @@
 		{% block stylesheets %}
 			<link rel="stylesheet" href="{{asset ('CSS/bootstrap.min.css')}}"/>
 		{% endblock %}
-
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 	</head>
 	<body>
 		{# Header du site avec une navbar Offcanvas avec comme objectif d'avoir plus de place notamment sur les mobiles #}
 
-		<nav class="navbar navbar-dark bg-dark fixed-top">
+		<nav class="navbar navbar-dark bg-dark sticky-top">
 
 			<div class="container-fluid d-flex">
 				<button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
@@ -24,7 +24,7 @@
 					<img src="{{ asset('/Images/logo.png')| imagine_filter('header_logo')}}" alt="Logo Naility"/>
 				</a>
 				<a class="navbar-brand" href="{{path ('cart')}}">
-					<img src="{{ asset('/Images/shopping-cart.png')| imagine_filter('header_cart_logo')}}" alt="Logo panier shopping"/>
+					<i class="fa-solid fa-cart-shopping fa-xl"></i>
 				</a>
 				<div class="offcanvas offcanvas-start bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
 					<div class="offcanvas-header justify-content-center">
@@ -34,7 +34,7 @@
 					<div class="offcanvas-body fs-5 fw-bold">
 						<ul class="navbar-nav justify-content-start flex-grow-1">
 							<li class="nav-item">
-								<a class="nav-link" aria-current="page" href="#">Accueil</a>
+								<a class="nav-link" aria-current="page" href="{{path ('home')}}">Accueil</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="#">Vernis semi-permanents</a>
@@ -96,6 +96,7 @@
 		</nav>
 
 		{% block body %}{% endblock %}
+
 		<script src="{{asset ('JS/bootstrap.bundle.min.js')}}"></script>
 	</body>
 </html>

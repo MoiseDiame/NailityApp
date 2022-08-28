@@ -18,18 +18,12 @@ liip_imagine:
                 thumbnail: 
                      {size: [280,75],mode: inset}
 
-         # Le filtre header_logo servira à dimensionner la taille du logo dans l'entête du site
-        header_cart_logo:
-            quality: 85
-            filters: 
-                thumbnail: 
-                     {size: [120,40],mode: inset}
 
      # Le filtre homepage_carousel sert à dimensionner la taille des images du carousel de la page d'accueil 
-        homepage_social_network:
+        mini_pictures:
             quality: 85
             filters: 
                thumbnail: 
-                     {size: [40,40],mode: inset}
+                     {size: [60,60],mode: inset}
 
 
