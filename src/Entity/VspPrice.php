@@ -27,6 +27,21 @@ class VspPrice
      */
     private $Price;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $priceFor5;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $priceFor10;
+
+    public function __toString()
+    {
+        return $this->Price;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +67,30 @@ class VspPrice
     public function setPrice(string $Price): self
     {
         $this->Price = $Price;
+
+        return $this;
+    }
+
+    public function getPriceFor5(): ?string
+    {
+        return $this->priceFor5;
+    }
+
+    public function setPriceFor5(string $priceFor5): self
+    {
+        $this->priceFor5 = $priceFor5;
+
+        return $this;
+    }
+
+    public function getPriceFor10(): ?string
+    {
+        return $this->priceFor10;
+    }
+
+    public function setPriceFor10(string $priceFor10): self
+    {
+        $this->priceFor10 = $priceFor10;
 
         return $this;
     }

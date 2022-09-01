@@ -12,7 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
-use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityDeletedEvent as BeforeEntityDeletedEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 
 
@@ -52,5 +52,13 @@ class VspCrudController extends AbstractCrudController
 
 
         ];
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityLabelInSingular('Vernis')
+            ->setEntityLabelInPlural('Vernis')
+            ->setPageTitle('index', ' Références de %entity_label_plural%');
     }
 }

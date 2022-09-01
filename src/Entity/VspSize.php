@@ -32,6 +32,11 @@ class VspSize
      */
     private $vspWeight;
 
+    public function __toString()
+    {
+        return $this->size;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

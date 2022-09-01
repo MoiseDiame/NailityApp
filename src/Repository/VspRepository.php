@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Vsp;
+use App\SearchClasses\VspColorFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,20 +41,23 @@ class VspRepository extends ServiceEntityRepository
     }
 
 
-    //    /**
-    //     * @return Vsp[] Returns an array of Vsp objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('v')
-    //            ->andWhere('v.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('v.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * Requete permettant d'afficher les coloris de vernis choisis par l'utilisateur
+     * @return Vsp[] Returns an array of Vsp objects
+     */
+    public function filterByColor(VspColorFilter $colorFilter): array
+    {
+        $query = $this->createQueryBuilder('v')
+            ->select('c', 'v')
+            ->join('v.color', 'c');
+
+        if (!empty($colorFilter->coloris)) {
+            $query = $query->andWhere('v.color IN (:coloris)')
+                ->setParameter('coloris', $colorFilter->coloris);
+        }
+
+        return $query->getQuery()->getResult();
+    }
 
     //    public function findOneBySomeField($value): ?Vsp
     //    {

@@ -1,20 +1,58 @@
 {% extends 'base.html.twig' %}
+{% form_theme filter_form 'bootstrap_5_layout.html.twig'%}
 
-{% block title %}Hello VspShopController!{% endblock %}
+{% block title %}NailityShop-Vernis semi-permanents
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<h1 class="text-center">Vernis semi-permanents</h1>
+	<div class="text center ">
+		{{form(filter_form,{'attr':{'class':'form-check form-check-inline'}})}}
+		</div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+		<div class="row justify-content-center">
+			{% for vsp in vsps %}
+				<div class="col-xs-6 col-sm-6 col-md-4 col-lg-2 ms-1">
+					<div class="card-group">
+						<a href="{{path('vsp_show_details',{slug:vsp.slug})}}" class="text-dark text-decoration-none">
+							<div class="card text-center mt-3" style="width: 13rem;">
+								<img src="{{asset('/uploads/Vsp/' ~ vsp.presentationpicture)}}" class="card-img-top" alt="...">
+								<div class="card-body">
+									<h5 class="card-title  fw-bold fs-6">{{vsp.name}}</h5>
+									<p class="list-group list-group-horizontal">
+										{% for vspSize in vspSizes %}
+											{% if loop.index0 == 0 %}
+												{# Boucle If pour activer une taille de conditionnement par défaut #}
+												{% set activation = 'active' %}
+											{% else %}
+												{% set activation ='' %}
+											{% endif %}
+											<a class="list-group-item list-group-item-action {{activation}}" id="list-vspPrice-list" data-bs-toggle="list" href="#list-{{vsp.slug}}-{{vspSize.size}}" role="tab" aria-controls="list-home">{{vspSize.size}}</a>
+										{% endfor %}
+									</p>
+									<p class="tab-content" id="nav-tabContent">
+										{% for vspSize in vspSizes  %}
+											{% if loop.index0 == 0 %}
+												{% set activation = 'show active' %}
+											{% else %}
+												{% set activation ='' %}
+											{% endif %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/moise/Documents/Naility/NailityApp/src/Controller/VspShopController.php'|file_link(0) }}">src/Controller/VspShopController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/moise/Documents/Naility/NailityApp/templates/vsp_shop/index.html.twig'|file_link(0) }}">templates/vsp_shop/index.html.twig</a></code></li>
-    </ul>
-</div>
-{% endblock %}
+											<span class="tab-pane fade {{ activation }} mt-4" id="list-{{vsp.slug}}-{{vspSize.size}}" role="tabpanel" aria-labelledby="list-price-list">{{vspPrice[loop.index0]}}€
+											</span>
+										{% endfor %}
+									</p>
+									<p class="text-center">
+										<label for="quantity">Quantité:</label>
+										<input class="form-control" type="number" id="quantity" name="quantity" min="1">
+									</p>
+									<a href="#" class="btn btn-primary mt-4">Ajouter au panier</a>
+								</p>
+							</p>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+	{% endfor %}
+</div>{% endblock %}
