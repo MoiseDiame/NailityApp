@@ -2,6 +2,9 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\ElectricDevices;
+use App\Entity\Product;
+use App\Entity\ProductCategory;
 use App\Entity\Vsp;
 use App\Entity\VspColor;
 use App\Entity\VspPrice;
@@ -30,11 +33,18 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Boutique', 'fa fa-home');
-        yield MenuItem::subMenu('Vernis', 'fas fa-list-ul')->setSubItems([
-            MenuItem::linkToCrud('Références de vernis', 'fas fa-tag', Vsp::class),
-            MenuItem::linkToCrud('Coloris de vernis', 'fas fa-tag', VspColor::class),
-            MenuItem::linkToCrud('Prix', 'fas fa-euro-sign', VspPrice::class)
-
+        yield MenuItem::subMenu('Produits', 'fas fa-list-ul')->setSubItems([
+            MenuItem::linkToCrud('Vernis', 'fas fa-tags', Product::class)
+                ->setController(VernisCrudController::class),
+            MenuItem::linkToCrud('Matériels électriques', 'fas fa-plug', Product::class)
+                ->setController(ElectricDevicesCrudController::class)
         ]);
+
+        yield    MenuItem::linkToCrud('Coloris de vernis', 'fas fa-tag', VspColor::class);
+        yield    MenuItem::linkToCrud('Prix des vernis', 'fas fa-euro-sign', VspPrice::class);
+
+        yield MenuItem::linkToCrud('Listing des produits', 'fas fa-tags', Product::class)
+            ->setController(ProductCrudController::class);
+        yield MenuItem::linkToCrud('Catégories produits', 'fas fa-sitemap', ProductCategory::class);
     }
 }

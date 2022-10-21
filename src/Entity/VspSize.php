@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\VspSizeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,16 @@ class VspSize
      * @ORM\OneToOne(targetEntity=VspWeight::class, mappedBy="size", cascade={"persist", "remove"})
      */
     private $vspWeight;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="VspSize")
+     */
+    private $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -94,6 +106,36 @@ class VspSize
         }
 
         $this->vspWeight = $vspWeight;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setVspSize($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getVspSize() === $this) {
+                $product->setVspSize(null);
+            }
+        }
 
         return $this;
     }

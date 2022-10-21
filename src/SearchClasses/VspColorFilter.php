@@ -2,13 +2,15 @@
 
 namespace App\SearchClasses;
 
+use App\Entity\Product;
+
 class VspColorFilter
 {
 
     /**
      * Un des coloris de vernis (rouge nude etc.)
      *
-     * @var VspColor
+     * @var Product
      */
 
     public $coloris = [];

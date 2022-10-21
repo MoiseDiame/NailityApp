@@ -4,9 +4,10 @@ namespace App\Controller\Admin;
 
 use App\Entity\VspPrice;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 
 class VspPriceCrudController extends AbstractCrudController
 {
@@ -28,10 +29,14 @@ class VspPriceCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm()
                 ->hideOnIndex(),
-            TextField::new('size', 'Conditionnement'),
-            TextField::new('price', 'Prix'),
-            TextField::new('priceFor5', 'Prix à partir de 5'),
-            TextField::new('priceFor10', 'Prix à partir de 10'),
+            AssociationField::new('size', 'Conditionnement'),
+            MoneyField::new('price', 'Prix')
+                ->setCurrency('EUR'),
+            MoneyField::new('priceFor5', 'Prix à partir de 5')
+                ->setCurrency('EUR'),
+            MoneyField::new('priceFor10', 'Prix à partir de 10')
+                ->setCurrency('EUR'),
+
 
         ];
     }

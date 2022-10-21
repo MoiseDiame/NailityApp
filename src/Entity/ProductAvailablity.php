@@ -29,9 +29,17 @@ class ProductAvailablity
      */
     private $vsps;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="availablity")
+     */
+    private $products;
+
     public function __construct()
     {
         $this->vsps = new ArrayCollection();
+        $this->electricDevices = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function __toString()
@@ -80,6 +88,37 @@ class ProductAvailablity
             // set the owning side to null (unless already changed)
             if ($vsp->getAvailablity() === $this) {
                 $vsp->setAvailablity(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setAvailablity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getAvailablity() === $this) {
+                $product->setAvailablity(null);
             }
         }
 

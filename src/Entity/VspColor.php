@@ -25,13 +25,19 @@ class VspColor
     private $color;
 
     /**
-     * @ORM\OneToMany(targetEntity=Vsp::class, mappedBy="color")
+     * @ORM\OneToMany(targetEntity=Vsp::class, mappedBy="color",cascade={"remove"})
      */
     private $vsps;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="VspColor")
+     */
+    private $products;
 
     public function __construct()
     {
         $this->vsps = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function __toString()
@@ -80,6 +86,36 @@ class VspColor
             // set the owning side to null (unless already changed)
             if ($vsp->getColor() === $this) {
                 $vsp->setColor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setVspColor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getVspColor() === $this) {
+                $product->setVspColor(null);
             }
         }
 

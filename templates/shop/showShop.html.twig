@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme filter_form 'bootstrap_5_layout.html.twig'%}
+
+{% block title %}Naility Shop
+{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset ('CSS/bootstrap.min.css')}}"/>
+{% endblock %}
+
+{% block body %}
+	<h1 class="text-center">Découvrez notre gamme de
+		{{category.name}}</h1>
+	<div class="row form-check-inline text-center">
+		{% if category.name == 'vernis semi-permanents' %}
+			<div class="justify-content-md-center">
+				{{form(filter_form,{'attr':{'class':'form-check-inline'}})}}
+				</div>
+			{% endif %}
+		</div>
+		<div class="row">
+			{% for product in products %}
+				<div class="col-md-3 col-sm-6 col-xs-6">
+					<a href="{{path('product_details',{product: product.slug,category: category.name})}}" class="text-center text-decoration-none fw-bold">
+						<img src="{{asset('/uploads/ProductPictures/' ~ product.presentationpic)}}" class="card-img-top img-fluid" alt="{{product.name}}">
+					</a>
+					<div class="card-body">
+						<h5 class="card-title text-center">{{product.name}}</h5>
+						<p class="card-text text-center">
+							{% if category.name == 'vernis semi-permanents' %}
+								{% set price = product.VspPrice|ea_as_string %}
+								{{(price/100)|number_format(2, '.', ',')}}€
+							{% else %}
+								{{(product.price /100)|number_format(2, '.', ',')}}
+								€
+							{% endif %}
+						</p>
+						<div class="card-footer text-center">
+							<a href="#" class="btn btn-primary text-center mb-5">Ajouter au panier</a>
+						</div>
+
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	{% endblock %}

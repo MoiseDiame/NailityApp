@@ -1,9 +1,9 @@
 .carousel-slide{
-    height: 32rem;
+    height: 400px;
     width: 100%;
 }
 .carousel-item {
-    height: 32rem;
+    height: 400px;
             }
 
 .carousel-item img {
@@ -11,7 +11,8 @@
     top: 0;
     left: 0;
     min-width: 100%;
-    height: 32rem;
+    height: 400px;
+    background-size: cover;
 
         }
 

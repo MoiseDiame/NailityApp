@@ -2,7 +2,7 @@
 
 namespace App\EventSubscriber;
 
-use App\Entity\Vsp;
+use App\Entity\Product;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityDeletedEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -15,11 +15,11 @@ class EasyAdminUnlinkPicturesSubscriber extends AbstractController implements Ev
     public function onBeforeEntityDeletedEvent(BeforeEntityDeletedEvent $event): void
     {
         $product = $event->getEntityInstance();
-        if ($product instanceof Vsp) {
-            $presentation_pic = $product->getPresentationPicture();
-            $illustration_pic1 = $product->getIllustrationPicture1();
-            $illustration_pic2 = $product->getIllustrationPicture2();
-            $pic_directory = $this->getParameter('vsp_images_directory'); // à remanier au moment de l'ajout des autres produits
+        if ($product instanceof Product) {
+            $presentation_pic = $product->getPresentationPic();
+            $illustration_pic1 = $product->getIllustrationPic1();
+            $illustration_pic2 = $product->getIllustrationPic2();
+            $pic_directory = $this->getParameter('product_images_directory');
 
             if ($presentation_pic) {
                 unlink($pic_directory . '/' . $presentation_pic);

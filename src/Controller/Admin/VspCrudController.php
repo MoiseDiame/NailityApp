@@ -13,6 +13,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+
 
 
 
@@ -59,6 +61,12 @@ class VspCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('Vernis')
             ->setEntityLabelInPlural('Vernis')
-            ->setPageTitle('index', ' Références de %entity_label_plural%');
+            ->setPageTitle('index', ' Références de %entity_label_plural%')
+            ->setSearchFields(['name', 'color.color', 'description']);
+    }
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('name');
     }
 }

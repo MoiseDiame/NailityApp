@@ -19,14 +19,18 @@ class VspColorFilterType extends AbstractType
 
             ->add('coloris', EntityType::class, [
                 'required' => false,
+                'label' => 'Trier par coloris',
                 'class' => VspColor::class,
                 'multiple' => true,
-                'expanded' => true
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'checkbox-inline'
+                ],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Filtrer',
                 'attr' => [
-                    "class" => 'btn-block btn-primary'
+                    "class" => 'btn btn-primary inline-block'
                 ]
             ]);
     }
@@ -34,7 +38,7 @@ class VspColorFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => VspColorFilter::class,
+            'class' => VspColorFilter::class,
             'method' => 'GET',
             'crsf_protection' => false
         ]);

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\VspPriceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,10 +39,23 @@ class VspPrice
      */
     private $priceFor10;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="VspPrice")
+     */
+    private $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
+
     public function __toString()
     {
         return $this->Price;
+        return $this->priceFor5;
+        return $this->priceFor10;
     }
+
 
     public function getId(): ?int
     {
@@ -91,6 +106,36 @@ class VspPrice
     public function setPriceFor10(string $priceFor10): self
     {
         $this->priceFor10 = $priceFor10;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setVspPrice($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getVspPrice() === $this) {
+                $product->setVspPrice(null);
+            }
+        }
 
         return $this;
     }

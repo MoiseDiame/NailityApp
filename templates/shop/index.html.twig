@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Naility Shop
+{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset ('CSS/bootstrap.min.css')}}"/>
+	<link rel="stylesheet" href="{{asset ('CSS/shoppage.css')}}"/>
+{% endblock %}
+
+{% block body %}
+	<h1 class="text-center">Bienvenue chez Naility</h1>
+	<div class="card-group justify-content-center">
+		{% for category in categories %}
+			<a href="{{path('category_shop',{category: category.slug})}}" class="text-center text-decoration-none fw-bold">
+				<p class="text-center text-success ">{{category.name|upper}}</p>
+				<div class="card ms-3 border border-dark">
+					<img src="{{asset('/uploads/Category/' ~ category.picture)}}" class="card-img" alt="{{category.name}}">
+					<div class="card-img-overlay"></div>
+				</div>
+			</a>
+		{% endfor %}
+	</div>
+{% endblock %}

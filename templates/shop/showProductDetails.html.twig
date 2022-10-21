@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Naility Shop
+{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset ('CSS/bootstrap.min.css')}}"/>
+{% endblock %}
+
+{% block body %}
+	<div class="modal-dialog modal-dialog-scrollable">
+		<div class="modal-content">
+			<div id="ProductDetailsCarousel" class="carousel slide" data-bs-ride="carousel">
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<img src="{{asset('/uploads/ProductPictures/' ~ product.presentationpic)}}" class="d-block w-100" alt="{{product.name}}">
+					</div>
+					{% if product.illustrationpic1 %}
+						<div class="carousel-item">
+							<img src="{{asset('/uploads/ProductPictures/' ~ product.illustrationpic1)}}" class="d-block w-100" alt="{{product.name}}">
+						</div>
+					{% endif %}
+					{% if product.illustrationpic2 %}
+						<div class="carousel-item">
+							<img src="{{asset('/uploads/ProductPictures/' ~ product.illustrationpic2)}}" class="d-block w-100" alt="{{product.name}}">
+						</div>
+					{% endif %}
+				</div>
+				<button class="carousel-control-prev" type="button" data-bs-target="#ProductDetailsCarousel" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
