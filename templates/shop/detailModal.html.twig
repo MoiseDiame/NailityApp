@@ -1,0 +1,44 @@
+<div class="modal fade" id="Modal{{product.id}}" tabindex="-1" aria-labelledby="ModalLabel{{product.id}}" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5 text-center" id="ModalLabel{{product.id}}">{{product.name}}
+					{% if category.name == 'vernis semi-permanents' %}
+						{{product.vspSize}}
+					{% endif %}
+				</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div
+				class="modal-body">
+				<!-- Carousel -->
+				{% include "/shop/detailModalCarousel.html.twig" %}
+				{% if product.category =="vernis semi-permanents" %}
+
+					<p class="text-start">
+						Teinte :
+						{{product.vspColor.color}}
+					</p>
+				{% endif %}
+
+				<p class="text-center">
+					Description :
+					{{product.description|raw}}
+				</p>
+				<p class="text-center">
+
+					{% if category.name == 'vernis semi-permanents' %}
+						{% set price = product.VspPrice|ea_as_string %}
+						{{(price/100)|number_format(2, '.', ',')}}€
+					{% else %}
+						{{(product.price /100)|number_format(2, '.', ',')}}
+						€
+					{% endif %}
+				</p>
+
+				<div class="modal-footer">
+					<a type="button" class="btn btn-primary" href="{{path('add_to_cart',{id:product.id})}}">Ajouter au panier</a>
+				</div>
+			</div>
+		</div>
+	</div>

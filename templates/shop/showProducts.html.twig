@@ -6,6 +6,8 @@
 {% endblock %}
 {% block stylesheets %}
 	<link rel="stylesheet" href="{{asset ('CSS/bootstrap.min.css')}}"/>
+	<link rel="stylesheet" href="{{asset ('CSS/productCard.css')}}"/>
+
 {% endblock %}
 
 {% block body %}
@@ -21,11 +23,13 @@
 		<div class="row">
 			{% for product in products %}
 				<div class="col-md-3 col-sm-6 col-xs-6">
-					<a href="{{path('product_details',{product: product.slug,category: category.name})}}" class="text-center text-decoration-none fw-bold">
-						<img src="{{asset('/uploads/ProductPictures/' ~ product.presentationpic)}}" class="card-img-top img-fluid" alt="{{product.name}}">
-					</a>
+					<img src="{{asset('/uploads/ProductPictures/' ~ product.presentationpic)}}" class="card-img-top" alt="{{product.name}}" height="450px" width="250px">
 					<div class="card-body">
-						<h5 class="card-title text-center">{{product.name}}</h5>
+						<h5 class="card-title text-center">{{product.name}}
+							{% if category.name == 'vernis semi-permanents' %}
+								{{product.vspSize}}
+							{% endif %}
+						</h5>
 						<p class="card-text text-center">
 							{% if category.name == 'vernis semi-permanents' %}
 								{% set price = product.VspPrice|ea_as_string %}
@@ -35,12 +39,20 @@
 								€
 							{% endif %}
 						</p>
-						<div class="card-footer text-center">
-							<a href="#" class="btn btn-primary text-center mb-5">Ajouter au panier</a>
-						</div>
+						<p
+							class="card-text text-center">
+							<!-- Button trigger modal -->
+							<a type="button" class="text-decoration-none " data-bs-toggle="modal" data-bs-target="#Modal{{product.id}}">
+								Détails
+							</a>
+							{% include "/shop/detailModal.html.twig" %}
+						</p>
 
 					</div>
+					<div class="card-footer text-center">
+						<a href="{{path('add_to_cart',{id:product.id})}}" class="btn btn-primary text-center mb-5">Ajouter au panier</a>
+					</div>
 				</div>
-			{% endfor %}
-		</div>
+			</div>
+		{% endfor %}
 	{% endblock %}

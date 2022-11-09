@@ -1,0 +1,28 @@
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight{{product.product.id}}" aria-labelledby="offcanvasRightLabel{{product.product.id}}">
+	<div class="offcanvas-header">
+		<h5 class="offcanvas-title fs-6" id="offcanvasRightLabel{{product.product.id}}">{{product.product.name}}
+			{% if product.category == 'vernis semi-permanents' %}
+				{{product.product.vspSize}}
+			{% endif %}
+		</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+	</div>
+	<div class="offcanvas-body">
+		<img src="{{asset('/uploads/ProductPictures/' ~ product.product.presentationpic)}}" class="card-img-top" alt="{{product.product.name}}" height="450px" width="250px">
+		<div class="card-body">
+			{% if product.product.category =="vernis semi-permanents" %}
+
+				<p class="text-start">
+					Teinte :
+					{{product.product.vspColor.color}}
+				</p>
+			{% endif %}
+
+			<p class="text-start">
+				Description :
+				{{product.product.description|raw}}
+			</p>
+
+		</div>
+	</div>
+</div>

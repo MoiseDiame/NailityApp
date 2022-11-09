@@ -1,0 +1,27 @@
+<div class="row">
+	{% for product in newProducts %}
+		<div class="col-md-3 col-sm-6 col-xs-6">
+			<img src="{{asset('/uploads/ProductPictures/' ~ product.presentationpic)}}" class="card-img-top" alt="{{product.name}}" height="300px" width="125px">
+			<div class="card-body">
+				<h5 class="card-title text-center">{{product.name}}
+					{% if product.category.name == 'vernis semi-permanents' %}
+						{{product.vspSize}}
+					{% endif %}
+				</h5>
+				<p class="card-text text-center">
+					{% if product.category.name == 'vernis semi-permanents' %}
+						{% set price = product.VspPrice|ea_as_string %}
+						{{(price/100)|number_format(2, '.', ',')}}€
+					{% else %}
+						{{(product.price /100)|number_format(2, '.', ',')}}
+						€
+					{% endif %}
+				</p>
+
+			</div>
+			<div class="card-footer text-center">
+				<a href="{{path('add_to_cart',{id:product.id})}}" class="btn btn-primary text-center mb-5">Ajouter au panier</a>
+			</div>
+		</div>
+	{% endfor %}
+</div>

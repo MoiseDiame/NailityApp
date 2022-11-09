@@ -23,9 +23,20 @@
 				<a class="navbar-brand col-3" href="{{path ('home')}}">
 					<img src="{{ asset('/Images/logo.png')| imagine_filter('header_logo')}}" alt="Logo Naility"/>
 				</a>
+				<div class="dropdown">
+					<a class="dropdown-toggle text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="fa-solid fa-search fa-xl"></i>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-dark border border-0">
+						<li class="border border-0">
+							{% include ('/shop/searchProductForm.html.twig') %}
+						</li>
+					</ul>
+				</div>
 				<a class="navbar-brand" href="{{path ('cart')}}">
 					<i class="fa-solid fa-cart-shopping fa-xl"></i>
 				</a>
+
 				<div class="offcanvas offcanvas-start bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
 					<div class="offcanvas-header justify-content-center">
 						<h4 class="offcanvas-title text-success " id="offcanvasDarkNavbarLabel">Menu</h4>
@@ -48,19 +59,9 @@
 							<li class="nav-item">
 								<a class="nav-link" href="#">Finitions</a>
 							</li>
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-auto-close="false" data-bs-toggle="dropdown" aria-expanded="false">
-									Matériels électriques
-								</a>
-								<ul class="dropdown-menu dropdown-menu-dark">
-									<li>
-										<a class="dropdown-item fs-5 fw-bold" href="#">Lampes</a>
-									</li>
-									<li>
-										<a class="dropdown-item fs-5 fw-bold" href="#">Ponceuses</a>
-									</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{path('category_shop',{category:'materiels-electriques'})}}">Matériels électriques</a>
 
-								</ul>
 							</li>
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-auto-close="false" data-bs-toggle="dropdown" aria-expanded="false">
@@ -80,23 +81,20 @@
 								</ul>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#">Nous contacter</a>
+								<a class="nav-link" href="{{path('contact')}}">Nous contacter</a>
 							</li>
 
-
 						</ul>
-
-						<form class="d-flex" role="search">
-							<input class="form-control me-2" type="search" placeholder="Vous chercher un produit?" aria-label="Search">
-							<button class="btn btn-outline-success" type="submit">Rechercher</button>
-						</form>
 					</div>
 				</div>
 			</div>
 		</nav>
-
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">
+				{{message}}
+			</div>
+		{% endfor %}
 		{% block body %}{% endblock %}
-
 		<script src="{{asset ('JS/bootstrap.bundle.min.js')}}"></script>
 	</body>
 </html>

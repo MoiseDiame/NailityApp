@@ -1,20 +1,116 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CartController!{% endblock %}
+{% block title %}Naility - Mon panier
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<h1 class="text-center mt-2">
+		Mon Panier</h1>
+	{% if cart|length > 0  %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/moise/Documents/Naility/NailityApp/src/Controller/CartController.php'|file_link(0) }}">src/Controller/CartController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/moise/Documents/Naility/NailityApp/templates/cart/index.html.twig'|file_link(0) }}">templates/cart/index.html.twig</a></code></li>
-    </ul>
-</div>
-{% endblock %}
+		<table class="table table-hover table align-middle table-responsive-sm">
+			<thead>
+				<tr>
+					<th scope="col">Produit</th>
+					<th scope="col">Quantité</th>
+					<th scope="col">Prix</th>
+					<th scope="col">Total</th>
+				</tr>
+			</thead>
+			<tbody class="">
+				{% set totalPrice = 0 %}
+				{% for product in cart %}
+					<tr>
+						<th scope="row">
+							<a data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight{{product.product.id}}" aria-controls="offcanvasRight">
+								<img src="{{asset('/uploads/ProductPictures/' ~ product.product.presentationpic)}}" alt="{{product.product.name}}" height="80px"/>
+							</a>
+							{# Détails sur l'article depuis le panier en appuyant sur la photo de présentation du produit #}
+
+							{% include "/cart/detailOffcanvas.html.twig" %}
+
+							<span>
+								{{product.product.name}}
+								{% if product.category == 'vernis semi-permanents' %}
+									{{product.product.vspSize}}
+								{% endif %}
+							</span>
+						</th>
+						<td>
+							<a class="text-decoration-none" href="{{path('decrease_to_cart',{id:product.product.id})}}">
+								<i class="fa-solid fa-minus fa-xs mx-2"></i>
+							</a>
+							<span>{{product.quantity}}</span>
+							<a class="text-decoration-none" href="{{path('add_to_cart',{id:product.product.id})}}">
+								<i class="fa-solid fa-plus fa-xs mx-2"></i>
+							</a>
+						</td>
+						<td>
+							{% if product.category == 'vernis semi-permanents' %}
+
+								{# Logique de prix dégressifs des vernis semi-permanents#}
+								{% if product.vspParse.quantity_7ml < 5 %}
+									{% set price_7ml = product.product.VspPrice.Price|ea_as_string %}
+								{% endif %}
+
+								{% if product.vspParse.quantity_7ml >= 5 and product.vspParse.quantity_7ml < 10 %}
+									{% set price_7ml = product.product.VspPrice.priceFor5|ea_as_string %}
+								{% endif %}
+
+								{% if product.vspParse.quantity_7ml >= 10 %}
+									{% set price_7ml = product.product.VspPrice.priceFor10|ea_as_string %}
+								{% endif %}
+
+								{% if product.product.VspSize.size == '7ml' %}
+									{% set price = price_7ml %}
+									{{(price /100)|number_format(2, '.', ',')}}
+									€
+								{% endif %}
+
+								{% if product.vspParse.quantity_15ml < 5 %}
+									{% set price_15ml = product.product.VspPrice.Price|ea_as_string %}
+								{% endif %}
+
+								{% if product.vspParse.quantity_15ml >= 5 and product.vspParse.quantity_15ml < 10 %}
+									{% set price_15ml = product.product.VspPrice.priceFor5|ea_as_string %}
+								{% endif %}
+
+								{% if product.vspParse.quantity_15ml >= 10 %}
+									{% set price_15ml = product.product.VspPrice.priceFor10|ea_as_string %}
+								{% endif %}
+
+								{% if product.product.VspSize.size == '15ml' %}
+									{% set price = price_15ml %}
+									{{(price /100)|number_format(2, '.', ',')}}
+									€
+								{% endif %}
+							{% else %}
+								{% set price = product.product.price %}
+								{{(price /100)|number_format(2, '.', ',')}}
+								€
+							{% endif %}
+						</td>
+
+						<td>{{(( price /100)* product.quantity)|number_format(2, '.', ',')}}€</td>
+						{% set totalPrice = totalPrice + (price /100) *  product.quantity %}
+						<td>
+							<a href="{{path('delete_to_cart', {id: product.product.id})}}">
+								<i class="fa-solid fa-trash fa-lg"></i>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<div class="text-end my-2 mx-3 ">Total de votre panier :{{totalPrice|number_format(2, '.', ',')}}€</div>
+		<div class="text-end my-2 mx-3 ">Frais de port :</div>
+		<div class="text-center mt-3">
+			<a href="{{path('shop')}}">Poursuivre vos achats</a>
+		</div>
+	{% else %}
+		<div class="text-center">Votre panier est vide.<br><div class="mt-3">
+				<a href="{{path('shop')}}">Découvrez nos produits</a>
+			</div>
+		{% endif %}
+	{% endblock %}

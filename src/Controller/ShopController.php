@@ -5,12 +5,12 @@ namespace App\Controller;
 use App\Form\VspColorFilterType;
 use App\Repository\ProductCategoryRepository;
 use App\Repository\ProductRepository;
-use App\Repository\VspColorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\SearchClasses\VspColorFilter;
+use App\Form\SearchProductType;
 
 
 class ShopController extends AbstractController
@@ -35,16 +35,38 @@ class ShopController extends AbstractController
         $category = $productCategoryRepository->findOneBySlug($category);
         $filter = new VspColorFilter;
         $colorFilterForm = $this->createForm(VspColorFilterType::class, $filter);
+        $products = $productRepository->findProductsByCategory($category);
 
         $colorFilterForm->handleRequest($request);
 
         if (($colorFilterForm->isSubmitted()) && ($colorFilterForm->isValid())) {
             $products = $productRepository->filterVspColor($filter);
         }
-        return $this->render('shop/showShop.html.twig', [
+        return $this->render('shop/showProducts.html.twig', [
             'category' => $category,
             'products' => $products,
             'filter_form' => $colorFilterForm->createView()
+        ]);
+    }
+    /**
+     * @Route("/shop_search", name="search_products")
+     */
+
+    public function SearchProducts(Request $request, ProductRepository $productRepository)
+    {
+        $searchedProducts = [];
+
+        $search = $request->get('product_search');
+
+        if ($search !== '') {
+
+            $searchedProducts = $productRepository->findProductsWithSearch($search);
+        }
+
+
+
+        return $this->render('shop/searchProducts.html.twig', [
+            'searchedProducts' => $searchedProducts,
         ]);
     }
 

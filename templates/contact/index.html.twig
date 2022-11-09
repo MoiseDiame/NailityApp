@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme contactForm 'bootstrap_5_layout.html.twig'%}
+
+{% block title %}Naility - Nous Contacter
+{% endblock %}
+
+{% block body %}
+	<h2 class="text-center">
+		Faites nous part de vos souhaits</h2>
+	<div class="row justify-content-center">
+		<div class="mt-3 col-md-4 col-sm-6">
+			{{form(contactForm)}}
+
+			</div>
+		</div>
+	{% endblock %}

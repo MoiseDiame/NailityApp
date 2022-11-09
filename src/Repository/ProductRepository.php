@@ -62,4 +62,16 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findProductsWithSearch($value)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere(
+                'p.name LIKE :val OR 
+                        p.description LIKE :val'
+            )
+            ->setParameter('val', '%' . $value . '%')
+            ->getQuery()
+            ->getResult();
+    }
 }

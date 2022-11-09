@@ -29,10 +29,6 @@ class VspSize
      */
     private $vspPrice;
 
-    /**
-     * @ORM\OneToOne(targetEntity=VspWeight::class, mappedBy="size", cascade={"persist", "remove"})
-     */
-    private $vspWeight;
 
     /**
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="VspSize")
@@ -88,27 +84,6 @@ class VspSize
         return $this;
     }
 
-    public function getVspWeight(): ?VspWeight
-    {
-        return $this->vspWeight;
-    }
-
-    public function setVspWeight(?VspWeight $vspWeight): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($vspWeight === null && $this->vspWeight !== null) {
-            $this->vspWeight->setSize(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($vspWeight !== null && $vspWeight->getSize() !== $this) {
-            $vspWeight->setSize($this);
-        }
-
-        $this->vspWeight = $vspWeight;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Product>
